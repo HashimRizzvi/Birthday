@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>!!! HAPPY B-DAY BESTIE POOKIE !!!</title>
+    <!-- Canvas Confetti for Fireworks -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        /* THE ULTIMATE CRINGE BLUE THEME */
+        body {
+            margin: 0;
+            padding: 0;
+            /* Blinding Cyan to Royal Blue */
+            background: linear-gradient(45deg, #00ffff, #0000ff, #00ffff, #0000ff);
+            background-size: 400% 400%;
+            animation: gradient-seizure 3s ease infinite;
+            color: white;
+            /* YES. COMIC SANS. */
+            font-family: "Comic Sans MS", "Chalkboard SE", sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #fireworks-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* --- GARISH GIFT SCREEN --- */
+        #gift-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .tap-text {
+            font-size: 2rem;
+            font-weight: bold;
+            color: yellow;
+            text-shadow: 2px 2px red, -2px -2px magenta;
+            margin-bottom: 30px;
+            animation: vibrate 0.1s linear infinite;
+        }
+
+        .gift-box {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background-color: #0000ff;
+            border: 10px dotted yellow;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 0 50px magenta;
+            transition: transform 0.1s;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.3) rotate(15deg);
+            background-color: #00ffff;
+        }
+
+        .gift-ribbon-v, .gift-ribbon-h {
+            position: absolute;
+            background-color: #ff00ff;
+        }
+        .gift-ribbon-v { width: 40px; height: 100%; left: 55px; }
+        .gift-ribbon-h { width: 100%; height: 40px; top: 55px; }
+
+        .gift-lid {
+            position: absolute;
+            width: 190px;
+            height: 40px;
+            background-color: #0000ff;
+            border: 5px solid yellow;
+            top: -30px;
+            left: -25px;
+            border-radius: 5px;
+            transition: transform 0.5s;
+        }
+
+        /* --- CELEBRATION SCREEN --- */
+        #celebration-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            z-index: 5;
+            width: 100%;
+            height: 100%;
+            padding-top: 2vh;
+        }
+
+        /* WORDART STYLE NAME */
+        .name {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-stroke: 2px white;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            filter: drop-shadow(5px 5px 0px black);
+            animation: barrel-roll 2s infinite linear;
+            margin-top: 20px;
+        }
+
+        /* SPINNING CAKE */
+        .cake-container {
+            margin-top: 20px;
+        }
+
+        .cake {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 15px dashed magenta;
+            object-fit: cover;
+            animation: spin 3s infinite linear;
+            box-shadow: 0 0 50px yellow;
+        }
+
+        /* UGLY MESSAGE BOX */
+        #messages-container {
+            margin-top: 30px;
+            background: limegreen;
+            border: 5px solid red;
+            border-radius: 50px;
+            padding: 20px;
+            width: 80%;
+            font-size: 2rem;
+            font-weight: bold;
+            color: black;
+            text-shadow: 2px 2px white;
+            box-shadow: 10px 10px 0px black;
+        }
+
+        .message {
+            display: none;
+            animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* THE PS5 TEXT STROBE EFFECT */
+        .ps5-text {
+            font-size: 3.5rem !important;
+            color: red !important;
+            background-color: yellow;
+            text-transform: uppercase;
+            text-shadow: none !important;
+            animation: strobe 0.1s infinite !important;
+        }
+
+        /* UGLY BALLOONS */
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 80px;
+            height: 100px;
+            border-radius: 50%;
+            background: repeating-linear-gradient(45deg, blue, cyan 20px);
+            border: 3px solid black;
+            animation: chaotic-float 3s linear infinite;
+            z-index: 2;
+        }
+
+        /* --- CRINGE ANIMATIONS --- */
+        @keyframes gradient-seizure {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes vibrate {
+            0% { transform: translate(2px, 2px) rotate(0deg); }
+            10% { transform: translate(-2px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        @keyframes barrel-roll {
+            0% { transform: rotate3d(1, 1, 1, 0deg) scale(1); }
+            50% { transform: rotate3d(1, 1, 1, 180deg) scale(1.5); }
+            100% { transform: rotate3d(1, 1, 1, 360deg) scale(1); }
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes strobe {
+            0% { background-color: red; color: yellow; transform: scale(1); }
+            50% { background-color: blue; color: white; transform: scale(1.2) rotate(5deg); }
+            100% { background-color: yellow; color: red; transform: scale(1) rotate(-5deg); }
+        }
+
+        @keyframes chaotic-float {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-30vh) translateX(50px) rotate(90deg); }
+            50% { transform: translateY(-60vh) translateX(-50px) rotate(180deg); }
+            75% { transform: translateY(-90vh) translateX(50px) rotate(270deg); }
+            100% { transform: translateY(-120vh) translateX(0) rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .name { font-size: 2.5rem; }
+            .cake { width: 150px; height: 150px; }
+            #messages-container { font-size: 1.2rem; }
+            .ps5-text { font-size: 1.8rem !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOUD PUNJABI BHANGRA MEME MUSIC -->
+    <audio id="bg-music" loop>
+        <source src="https://www.myinstants.com/media/sounds/tunak-tunak-tun.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Gift Screen -->
+    <div id="gift-screen">
+        <div class="tap-text">👉👈 CLICK ME SENPAI 🥺 UWU</div>
+        <div class="gift-box" onclick="openGift()">
+            <div class="gift-ribbon-v"></div>
+            <div class="gift-ribbon-h"></div>
+            <div class="gift-lid" id="lid"></div>
+        </div>
+    </div>
+
+    <!-- Celebration Screen -->
+    <div id="celebration-screen">
+        <!-- MARQUEE WITH PUNJABI VIBES -->
+        <marquee scrollamount="25" style="width: 100%; position: absolute; top: 10px; font-size: 2.5rem; color: yellow; font-weight: bold; z-index: 100; text-shadow: 2px 2px red;">
+            🔥💯🥶 BALLE BALLE 🕺💃 BURRRRRAAAH OYE HOYE HAPPY BDAY BESTIE SHEEEESH 🥶💯🔥
+        </marquee>
+
+        <h1 class="name">Z e e n i y a ! !</h1>
+        
+        <div class="cake-container">
+            <!-- Realistic but spinning wildly -->
+            <img src="https://images.unsplash.com/photo-1557308536-ee471ef2c390?auto=format&fit=crop&w=800&q=80" alt="Cake" class="cake">
+        </div>
+
+        <div id="messages-container">
+            <div class="message">OMG HAAAAAPPPPYYY BDAY POOKIE BEAR!!! 🥺🧸✨</div>
+            <div class="message">ur literally the skibidi to my toilet... 🚽🐺</div>
+            <div class="message">so sigma. much rizz. very demure. 💅✨</div>
+            <div class="message">BALLE BALLE WE VIBIN TODAY 🕺🥁🔥</div>
+            <div class="message">but wait a minute... 🛑🖐️</div>
+            <!-- THE PS5 JOKE -->
+            <div class="message ps5-text">WHERE IS MY PS5 U BROKE BOZO?!?! 🤬🎮💀💳💥</div>
+            <div class="message">jk rawr xD luv u lots bestieeee 💙🦕🦖</div>
+        </div>
+    </div>
+
+    <script>
+        function openGift() {
+            const lid = document.getElementById('lid');
+            const giftScreen = document.getElementById('gift-screen');
+            const celebrationScreen = document.getElementById('celebration-screen');
+            const music = document.getElementById('bg-music');
+
+            // Fly off chaotically
+            lid.style.transform = 'translateY(-500px) rotate(720deg)';
+
+            // Play loud punjabi music
+            music.volume = 1.0;
+            music.play().catch(e => alert("Please click anywhere first so the Dhol can drop! 🥁"));
+
+            setTimeout(() => {
+                giftScreen.style.display = 'none';
+                celebrationScreen.style.display = 'flex';
+                
+                startChaoticFireworks();
+                createUglyBalloons();
+                showMessages();
+            }, 500);
+        }
+
+        // --- OVERWHELMING FIREWORKS ---
+        function startChaoticFireworks() {
+            const duration = 20 * 1000;
+            const animationEnd = Date.now() + duration;
+
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+            const interval = setInterval(function() {
+                if (Date.now() > animationEnd) return clearInterval(interval);
+
+                // Spamming fireworks everywhere
+                confetti({
+                    particleCount: 150,
+                    startVelocity: 80,
+                    spread: 360,
+                    origin: { x: randomInRange(0, 1), y: randomInRange(0, 1) },
+                    colors: ['#0000ff', '#00ffff', '#ff00ff', '#ffff00', '#ff0000']
+                });
+            }, 200);
+        }
+
+        // --- UGLY SPINNING BALLOONS ---
+        function createUglyBalloons() {
+            const screen = document.body;
+            for(let i = 0; i < 25; i++) {
+                let balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = (Math.random() * 100) + 'vw';
+                balloon.style.animationDelay = (Math.random() * 2) + 's';
+                screen.appendChild(balloon);
+            }
+        }
+
+        // --- CRINGE MESSAGES ---
+        function showMessages() {
+            const messages = document.querySelectorAll('.message');
+            let currentIndex = 0;
+
+            function displayNextMessage() {
+                messages.forEach(msg => msg.style.display = 'none');
+
+                if (currentIndex < messages.length) {
+                    let currentMsg = messages[currentIndex];
+                    currentMsg.style.display = 'block';
+                    
+                    // The PS5 message stays longer because it is seizing
+                    let waitTime = currentMsg.classList.contains('ps5-text') ? 4000 : 3000;
+
+                    // Play a vine boom sound on the PS5 message for extra cringe
+                    if(currentMsg.classList.contains('ps5-text')) {
+                        let boom = new Audio('https://www.myinstants.com/media/sounds/vine-boom.mp3');
+                        boom.volume = 1.0;
+                        boom.play().catch(e=>{});
+                    }
+                    
+                    setTimeout(() => {
+                        currentIndex++;
+                        displayNextMessage();
+                    }, waitTime); 
+                } else {
+                    messages[messages.length - 1].style.display = 'block';
+                }
+            }
+
+            displayNextMessage();
+        }
+    </script>
+</body>
+</html>
